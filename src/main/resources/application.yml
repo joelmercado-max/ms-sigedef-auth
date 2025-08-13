@@ -1,29 +1,31 @@
-provider:
-  host: https://localhost:9443 #Change the host
-
 client:
-  client-id: LQTLEgDFil5Tyf0wS5KWUShkMDEa #Change client-id
-  client-secret: ZuFwLrbBKhp74NWT1zBIjXuXuYUa # Change client-secret
+  client-id: tO7ddkSBhX0sBo3iLKihecDwjfMa
+  client-secret: zfpjybkC3MAAw9s2HwffOHKbCIXOI4Afg_qrVHcFYg4a
   post-logout-uri: http://localhost:8080/spring-boot-sample/login
-  scope: openid
   authorization-grant-type: authorization_code
 
-
-#No need to change the following configurations
 spring:
   security:
     oauth2:
       client:
         registration:
           wso2:
-            client-name : WSO2 Identity Server
-            client-id: ${client.client-id} #Change client-id
-            client-secret: ${client.client-secret} # Change client-secret
+            client-name: Asgardeo
+            client-id: ${client.client-id}
+            client-secret: ${client.client-secret}
             authorization-grant-type: ${client.authorization-grant-type}
-            scope: ${client.scope}
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope:
+              - openid
+              - profile
+            provider: wso2
         provider:
           wso2:
-            issuer-uri: ${provider.host}/oauth2/token
+            authorization-uri: https://api.asgardeo.io/t/bprocess/oauth2/authorize
+            token-uri:         https://api.asgardeo.io/t/bprocess/oauth2/token
+            jwk-set-uri:       https://api.asgardeo.io/t/bprocess/oauth2/jwks
+            user-info-uri:     https://api.asgardeo.io/t/bprocess/oauth2/userinfo
+            user-name-attribute: sub
 
-  thymeleaf:
-    cache: false
+thymeleaf:
+  cache: false

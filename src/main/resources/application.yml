@@ -22,3 +22,4 @@ logging:
   level:
     org.springframework.security.oauth2.server.resource: DEBUG
     org.springframework.security.web: DEBUG
+    org.springframework.security.oauth2.jwt: TRACE

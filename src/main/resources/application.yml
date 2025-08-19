@@ -1,35 +1,24 @@
-client:
-  client-id: tO7ddkSBhX0sBo3lKhihecDwjfMa
-  client-secret: zfpjybkC3MAAw9s2HwffOHKbCIXOI4Afg_qrVHcFYg4a
-  post-logout-uri: http://localhost:8080/spring-boot-sample/login
-  authorization-grant-type: authorization_code
+server:
+  port: 8080
 
 spring:
   security:
     oauth2:
-      client:
-        registration:
-          wso2:
-            client-name: Asgardeo
-            client-id: ${client.client-id}
-            client-secret: ${client.client-secret}
-            authorization-grant-type: ${client.authorization-grant-type}
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-            scope:
-              - openid
-              - profile
-            provider: wso2
-        provider:
-          wso2:
-            authorization-uri: https://api.asgardeo.io/t/bprocess/oauth2/authorize
-            token-uri:         https://api.asgardeo.io/t/bprocess/oauth2/token
-            jwk-set-uri:       https://api.asgardeo.io/t/bprocess/oauth2/jwks
-            user-info-uri:     https://api.asgardeo.io/t/bprocess/oauth2/userinfo
-            user-name-attribute: sub
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://api.asgardeo.io/t/bprocess/oauth2/jwks
+          issuer-uri: https://api.asgardeo.io/t/bprocess/oauth2/token
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when_authorized
+
 logging:
   level:
-    org.springframework.security.oauth2.client: DEBUG
+    org.springframework.security.oauth2.server.resource: DEBUG
     org.springframework.security.web: DEBUG
-
-thymeleaf:
-  cache: false

@@ -13,16 +13,20 @@ public class HelloController {
 
     @GetMapping("/hello")
     public Map<String, Object> hello(@AuthenticationPrincipal Jwt jwt) {
-        // Pull a friendly name if present; fall back to sub
-        String name =
-                (String) jwt.getClaims().getOrDefault("preferred_username",
-                        jwt.getClaims().getOrDefault("email", jwt.getSubject()));
+        String name = (String) jwt.getClaims().getOrDefault("preferred_username",
+                jwt.getClaims().getOrDefault("email", jwt.getSubject()));
+
+        // Prefer "scp" (array). Fall back to "scope" (string).
+        Object scp = jwt.getClaims().get("scp");
+        String scope = (scp instanceof java.util.Collection)
+                ? String.join(" ", (java.util.Collection<String>) scp)
+                : jwt.getClaimAsString("scope");
 
         Map<String, Object> out = new HashMap<>();
         out.put("message", "Hello, " + name + " 👋");
         out.put("sub", jwt.getSubject());
         out.put("issuer", jwt.getIssuer().toString());
-        out.put("scope", jwt.getClaimAsString("scope"));     // or "scp" depending on IdP
+        out.put("scope", scope);
         return out;
     }
 

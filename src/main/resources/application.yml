@@ -7,16 +7,12 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: https://api.asgardeo.io/t/bprocess/oauth2/jwks
-          issuer-uri: https://api.asgardeo.io/t/bprocess/oauth2/token
 
 management:
   endpoints:
     web:
       exposure:
         include: health,info
-  endpoint:
-    health:
-      show-details: when_authorized
 
 logging:
   level:

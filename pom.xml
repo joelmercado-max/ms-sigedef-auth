@@ -4,13 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Upgrade parent to 2.7.x so SecurityFilterChain style works -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.18</version>
+        <version>3.3.3</version>
         <relativePath/>
     </parent>
+
+    <properties>
+        <java.version>21</java.version>
+    </properties>
 
     <groupId>org.wso2.identity.sample.oidc</groupId>
     <artifactId>spring-boot-sample</artifactId>
@@ -19,11 +22,6 @@
 
     <name>Spring-boot-Sample-App</name>
     <description>Spring Boot sample to integrate with WSO2 Identity Server (Resource Server)</description>
-
-    <properties>
-        <!-- Java 8 is supported by Boot 2.7; bump to 11+ if you prefer -->
-        <java.version>1.8</java.version>
-    </properties>
 
     <dependencies>
         <!-- Web (REST API) -->

@@ -16,6 +16,12 @@ management:
 
 logging:
   level:
+    # Spring Security JWT / Resource Server
+    org.springframework.security.oauth2.jwt: DEBUG
     org.springframework.security.oauth2.server.resource: DEBUG
-    org.springframework.security.web: DEBUG
-    org.springframework.security.oauth2.jwt: TRACE
+    # Nimbus JOSE/JWT (shows header/alg/type checks, JWK selection, cache info)
+    com.nimbusds.jose: TRACE
+    com.nimbusds.jose.proc: TRACE
+    com.nimbusds.jose.jwk.source: TRACE
+    # HTTP client used by Spring to fetch OIDC/JWKS
+    org.springframework.web.client.RestTemplate: DEBUG

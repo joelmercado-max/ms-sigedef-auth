@@ -1,3 +1,4 @@
+// src/main/java/.../controller/HelloController.java
 package org.wso2.identity.sample.oidc.controller;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -11,27 +12,21 @@ import java.util.Map;
 @RestController
 public class HelloController {
 
+    // WORKER-only (per SecurityConfig)
     @GetMapping("/hello")
     public Map<String, Object> hello(@AuthenticationPrincipal Jwt jwt) {
-        String name = (String) jwt.getClaims().getOrDefault("preferred_username",
-                jwt.getClaims().getOrDefault("email", jwt.getSubject()));
-
-        // Prefer "scp" (array). Fall back to "scope" (string).
-        Object scp = jwt.getClaims().get("scp");
-        String scope = (scp instanceof java.util.Collection)
-                ? String.join(" ", (java.util.Collection<String>) scp)
-                : jwt.getClaimAsString("scope");
-
         Map<String, Object> out = new HashMap<>();
-        out.put("message", "Hello, " + name + " 👋");
+        out.put("message", "Hello WORKER 👷");
         out.put("sub", jwt.getSubject());
-        out.put("issuer", jwt.getIssuer().toString());
-        out.put("scope", scope);
         return out;
     }
 
-    @GetMapping("/me")
-    public Map<String, Object> me(@AuthenticationPrincipal Jwt jwt) {
-        return jwt.getClaims();
+    // ADMIN-only (per SecurityConfig)
+    @GetMapping("/helloRestrict")
+    public Map<String, Object> helloRestrict(@AuthenticationPrincipal Jwt jwt) {
+        Map<String, Object> out = new HashMap<>();
+        out.put("message", "Hello ADMIN 👑");
+        out.put("sub", jwt.getSubject());
+        return out;
     }
 }
